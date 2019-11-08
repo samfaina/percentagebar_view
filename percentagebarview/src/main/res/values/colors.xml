@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="default_progress_color">#ff00ddff</color>
+    <color name="default_background_color">#ff0099cc</color>
+    <color name="default_threshold_color">#ff99cc00</color>
+    <color name="default_text_color">#757575</color>
+</resources>

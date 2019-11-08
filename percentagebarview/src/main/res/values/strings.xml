@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PercentageBarView</string>
+    <string name="percentage">%.2f%%</string>
+</resources>

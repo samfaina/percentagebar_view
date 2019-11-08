@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="default_bar_height">24dp</dimen>
+    <dimen name="default_threshold_height">40dp</dimen>
+    <dimen name="default_threshold_width">2dp</dimen>
+    <dimen name="threshold_position">50dp</dimen>
+    <dimen name="text_margin">8dp</dimen>
+    <dimen name="text_width">80dp</dimen>
+
+</resources>
