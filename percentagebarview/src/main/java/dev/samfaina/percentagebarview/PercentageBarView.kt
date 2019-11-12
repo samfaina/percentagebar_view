@@ -14,7 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 
-class PercentageBarView : ConstraintLayout {
+class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
 
     // aux attribs
     private var thresholdPosition: Float = 0f
@@ -25,14 +25,14 @@ class PercentageBarView : ConstraintLayout {
     private val defaultDuration: Int = 800
 
     // views
-    lateinit var progressView: View
-    lateinit var thresholdView: View
-    lateinit var backgroundView: View
-    lateinit var progressTextView: TextView
-    lateinit var labelTextView: TextView
-    lateinit var thresholdTextView: TextView
-    lateinit var constrained: ConstraintLayout
-    lateinit var wrapper: RelativeLayout
+    var progressView: View
+    var thresholdView: View
+    var backgroundView: View
+    var progressTextView: TextView
+    var labelTextView: TextView
+    var thresholdTextView: TextView
+    var constrained: ConstraintLayout
+    var wrapper: RelativeLayout
 
     // progress attribs
     private var progressColor: Int = 0
@@ -67,33 +67,16 @@ class PercentageBarView : ConstraintLayout {
     private var backgroundBarHeight: Float = 0f
 
     // label attribs
-    private var labelVisible: Boolean = false
     private var labelText: String? = null
     private var labelColor: Int = 0
 
 
-    constructor(context: Context) : super(context, null) {
-        initView(context, null)
-    }
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs, 0) {
-        initView(context, attrs)
-    }
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
-        initView(context, attrs)
-    }
-
     /**
      * Initializes view
      */
-    private fun initView(context: Context, attributeSet: AttributeSet?) {
+    init {
 
-        View.inflate(context, R.layout.percentage_bar, this)
+        inflate(context, R.layout.percentage_bar, this)
 
         progressView = findViewById(R.id.progress)
         thresholdView = findViewById(R.id.threshold)
@@ -107,7 +90,7 @@ class PercentageBarView : ConstraintLayout {
         thresholdPosition = resources.getDimensionPixelSize(R.dimen.threshold_position).toFloat()
 
 
-        attributeSet?.let {
+        attrs.let {
             getOptions(context, it)
             applyOptions()
         }
@@ -115,9 +98,10 @@ class PercentageBarView : ConstraintLayout {
 
         // progress
         if (progressValue != -1) {
-            wrapper.post {
-                setProgress(progressValue.toFloat(), true)
-            }
+            setProgress(progressValue.toFloat(), true)
+//            wrapper.postDelayed({
+//                setProgress(progressValue.toFloat(), true)
+//            },1000)
         }
     }
 
@@ -173,7 +157,6 @@ class PercentageBarView : ConstraintLayout {
         }
 
         // label text
-        labelVisible = attribs.getBoolean(R.styleable.PercentageBarView_label_visible, false)
         labelColor = attribs.getColor(
             R.styleable.PercentageBarView_label_color,
             ContextCompat.getColor(context, R.color.default_text_color)
@@ -266,7 +249,7 @@ class PercentageBarView : ConstraintLayout {
         // label text
         setText(labelTextView, labelText)
         labelTextView.setTextColor(labelColor)
-        labelTextView.visibility = when (labelVisible) {
+        labelTextView.visibility = when (labelText!=null) {
             true -> View.VISIBLE
             false -> View.GONE
         }
@@ -406,21 +389,24 @@ class PercentageBarView : ConstraintLayout {
      * @param animate Boolean
      */
     fun setProgress(progress: Float, animate: Boolean) {
-        maxWith = wrapper.measuredWidth - thresholdPosition
-        val prog = progress * maxWith / 100
+        wrapper.postDelayed({
+            maxWith = wrapper.measuredWidth - thresholdPosition
+            val prog = progress * maxWith / 100
 
-        if (animate && maxWith > 0) {
-            animateBar(prog)
-            if (progressVisible) {
-                animateText(progress)
+            if (animate && maxWith > 0) {
+                animateBar(prog)
+                if (progressVisible) {
+                    animateText(progress)
+                }
+            } else {
+                updateWidth(prog.toInt())
+                initialProgress = prog.toInt()
+                if (progressVisible) {
+                    progressTextView.text = context.getString(R.string.percentage, prog)
+                }
             }
-        } else {
-            updateWidth(prog.toInt())
-            initialProgress = prog.toInt()
-            if (progressVisible) {
-                progressTextView.text = context.getString(R.string.percentage, prog)
-            }
-        }
+        },200)
+
     }
 
     fun setThresholdText(text: String) {

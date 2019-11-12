@@ -31,7 +31,6 @@
         <attr name="background_bar_color" format="reference|color"/>
         <attr name="background_bar_height" format="dimension"/>
 
-        <attr name="label_visible" format="boolean"/>
         <attr name="label_text" format="string"/>
         <attr name="label_color" format="color"/>
 

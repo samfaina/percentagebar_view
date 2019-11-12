@@ -12,10 +12,10 @@
     <TextView
         android:id="@+id/label"
         android:layout_width="wrap_content"
-        android:minWidth="@dimen/text_width"
-        android:gravity="center_horizontal"
-        android:paddingEnd="@dimen/text_margin"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:minWidth="@dimen/text_width"
+        android:paddingEnd="@dimen/text_margin"
         app:layout_constraintBottom_toBottomOf="@+id/wrapper"
         app:layout_constraintEnd_toStartOf="@+id/wrapper"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +27,8 @@
         android:id="@+id/wrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/threshold"
         app:layout_constraintEnd_toStartOf="@+id/progress_text"
         app:layout_constraintStart_toEndOf="@+id/label"
@@ -36,18 +36,18 @@
 
         <View
             android:id="@+id/background"
-            android:layout_centerVertical="true"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_bar_height"
+            android:layout_centerVertical="true"
             tools:background="@color/default_background_color" />
 
         <View
             android:id="@+id/progress"
             android:layout_width="0dp"
-            tools:layout_width="20dp"
-            android:layout_centerVertical="true"
             android:layout_height="@dimen/default_bar_height"
-            tools:background="@color/default_progress_color" />
+            android:layout_centerVertical="true"
+            tools:background="@color/default_progress_color"
+            tools:layout_width="20dp" />
 
 
     </RelativeLayout>
@@ -66,10 +66,10 @@
     <TextView
         android:id="@+id/progress_text"
         android:layout_width="wrap_content"
-        android:minWidth="@dimen/text_width"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/text_margin"
         android:gravity="center_horizontal"
+        android:minWidth="@dimen/text_width"
+        android:paddingLeft="@dimen/text_margin"
         app:layout_constraintBottom_toBottomOf="@+id/wrapper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/wrapper"
@@ -80,8 +80,8 @@
         android:id="@+id/threshold_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/text_margin"
         android:layout_marginTop="@dimen/text_margin"
+        android:layout_marginBottom="@dimen/text_margin"
         app:layout_constraintBottom_toTopOf="@+id/threshold"
         app:layout_constraintEnd_toEndOf="@+id/threshold"
         app:layout_constraintStart_toStartOf="@+id/threshold"
