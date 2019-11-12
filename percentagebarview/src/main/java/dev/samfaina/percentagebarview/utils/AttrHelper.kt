@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
-import dev.samfaina.percentagebarview.utils.AnimationConstants.Companion.DEFAULT_DURATION
 import dev.samfaina.percentagebarview.PercentBarModel
-import dev.samfaina.percentagebarview.utils.PositionConstants.Companion.TOP
 import dev.samfaina.percentagebarview.R
+import dev.samfaina.percentagebarview.utils.AnimationConstants.Companion.DEFAULT_DURATION
+import dev.samfaina.percentagebarview.utils.PositionConstants.Companion.TOP
 
 
 /**
@@ -28,8 +28,10 @@ class AttrHelper {
     ): PercentBarModel {
 
         val attrs: TypedArray =
-            context.theme.obtainStyledAttributes(attributeSet,
-                R.styleable.PercentageBarView, 0, 0)
+            context.theme.obtainStyledAttributes(
+                attributeSet,
+                R.styleable.PercentageBarView, 0, 0
+            )
         // progress bar
         getProgressAttrs(attrs, context)
 
@@ -64,7 +66,8 @@ class AttrHelper {
         if (model.progressDrawable == null) {
             model.progressColor = attrs.getColor(
                 R.styleable.PercentageBarView_progress_color,
-                ContextCompat.getColor(context,
+                ContextCompat.getColor(
+                    context,
                     R.color.default_progress_color
                 )
             )
@@ -90,7 +93,8 @@ class AttrHelper {
             attrs.getBoolean(R.styleable.PercentageBarView_progress_text_visible, false)
         model.progressTextColor = attrs.getColor(
             R.styleable.PercentageBarView_progress_text_color,
-            ContextCompat.getColor(context,
+            ContextCompat.getColor(
+                context,
                 R.color.default_text_color
             )
         )
@@ -122,7 +126,8 @@ class AttrHelper {
         if (model.backgroundBarDrawable == null) {
             model.backgroundBarColor = attrs.getColor(
                 R.styleable.PercentageBarView_background_bar_color,
-                ContextCompat.getColor(context,
+                ContextCompat.getColor(
+                    context,
                     R.color.default_background_color
                 )
             )
@@ -152,7 +157,8 @@ class AttrHelper {
         if (model.thresholdDrawable == null) {
             model.thresholdColor = attrs.getColor(
                 R.styleable.PercentageBarView_threshold_color,
-                ContextCompat.getColor(context,
+                ContextCompat.getColor(
+                    context,
                     R.color.default_threshold_color
                 )
             )
@@ -177,7 +183,8 @@ class AttrHelper {
             model.thresholdText = attrs.getString(R.styleable.PercentageBarView_threshold_text)
             model.thresholdTextColor = attrs.getColor(
                 R.styleable.PercentageBarView_threshold_text_color,
-                ContextCompat.getColor(context,
+                ContextCompat.getColor(
+                    context,
                     R.color.default_text_color
                 )
             )
@@ -204,7 +211,8 @@ class AttrHelper {
     ) {
         model.labelColor = attrs.getColor(
             R.styleable.PercentageBarView_label_color,
-            ContextCompat.getColor(context,
+            ContextCompat.getColor(
+                context,
                 R.color.default_text_color
             )
         )

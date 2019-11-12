@@ -51,33 +51,35 @@ class ViewHolder(view: View) {
     private fun setupThresholdText(model: PercentBarModel) {
         when (model.thresholdText != null) {
             true -> {
-                thresholdTextView.visibility =View.VISIBLE
-                setText(thresholdTextView, model.thresholdText)
-                thresholdTextView.setTextColor(model.thresholdTextColor)
-                val constraintSet = ConstraintSet()
-                constraintSet.clone(constrained)
-                if (model.thresholdTextPosition == PositionConstants.BOTTOM) {
-                    constraintSet.connect(
-                        R.id.threshold_text,
-                        ConstraintSet.TOP,
-                        R.id.threshold,
-                        ConstraintSet.BOTTOM
-                    )
-                    constraintSet.clear(R.id.threshold_text, ConstraintSet.BOTTOM)
-
-                } else {
-                    constraintSet.connect(
-                        R.id.threshold_text,
-                        ConstraintSet.BOTTOM,
-                        R.id.threshold,
-                        ConstraintSet.TOP
-                    )
-                    constraintSet.clear(R.id.threshold_text, ConstraintSet.TOP)
-                }
-                constraintSet.applyTo(constrained)
+                thresholdTextView.visibility = View.VISIBLE
             }
-            false ->  thresholdTextView.visibility =View.GONE
+            false -> thresholdTextView.visibility = View.INVISIBLE
         }
+
+
+        setText(thresholdTextView, model.thresholdText)
+        thresholdTextView.setTextColor(model.thresholdTextColor)
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constrained)
+        if (model.thresholdTextPosition == PositionConstants.BOTTOM) {
+            constraintSet.connect(
+                R.id.threshold_text,
+                ConstraintSet.TOP,
+                R.id.threshold,
+                ConstraintSet.BOTTOM
+            )
+            constraintSet.clear(R.id.threshold_text, ConstraintSet.BOTTOM)
+
+        } else {
+            constraintSet.connect(
+                R.id.threshold_text,
+                ConstraintSet.BOTTOM,
+                R.id.threshold,
+                ConstraintSet.TOP
+            )
+            constraintSet.clear(R.id.threshold_text, ConstraintSet.TOP)
+        }
+        constraintSet.applyTo(constrained)
     }
 
     private fun setupThresholdBar(model: PercentBarModel) {
@@ -100,7 +102,8 @@ class ViewHolder(view: View) {
     private fun setupBackgroundBar(model: PercentBarModel) {
         backgroundView.layoutParams.height = model.backgroundBarHeight.toInt()
         when {
-            model.backgroundBarDrawable != null -> backgroundView.background = model.backgroundBarDrawable
+            model.backgroundBarDrawable != null -> backgroundView.background =
+                model.backgroundBarDrawable
             else -> backgroundView.setBackgroundColor(model.backgroundBarColor)
         }
     }

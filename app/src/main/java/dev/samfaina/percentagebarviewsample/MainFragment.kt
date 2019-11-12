@@ -33,6 +33,7 @@ class MainFragment : Fragment() {
         percentageBarView.setProgress(80f, true)
 
 
+
         prgButton.setOnClickListener {
             percentageBarView.setProgress((1..100).random().toFloat(), true)
             percentageBarView2.setProgress((1..100).random().toFloat(), true)
