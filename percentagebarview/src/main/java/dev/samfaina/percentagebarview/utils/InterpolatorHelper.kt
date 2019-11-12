@@ -1,4 +1,4 @@
-package dev.samfaina.percentagebarview
+package dev.samfaina.percentagebarview.utils
 
 import android.view.animation.*
 
@@ -29,8 +29,6 @@ class InterpolatorHelper {
             OVERSHOOT_INTERPOLATOR to OvershootInterpolator()
         )
     }
-
-
 
 
 }
