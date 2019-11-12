@@ -15,7 +15,9 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        app:threshold_text_position="top" />
+        app:background_bar_color="@drawable/rounded_palette5"
+        app:progress_color="@drawable/rounded_palette3"
+        app:threshold_color="@color/first_palette_1"/>
 
     <dev.samfaina.percentagebarview.PercentageBarView
         android:id="@+id/percent_bar2"
@@ -29,13 +31,14 @@
         app:progress="44"
         app:layout_constraintTop_toTopOf="parent"
         app:threshold_height="16dp"
-        app:background_bar_color="@color/colorPrimaryDark"
-        app:threshold_color="@color/colorAccent"
-        app:progress_color="@color/default_threshold_color"
+        app:background_bar_color="@color/second_palette_2"
+        app:threshold_color="@color/second_palette_5"
+        app:progress_color="@color/second_palette_4"
         app:progress_interpolator="accelerate_decelerate"
-        app:progress_height="12dp"
-        app:background_bar_height="5dp"
-        app:label_text="Some label"
+        app:progress_height="8dp"
+        app:background_bar_height="6dp"
+        app:threshold_text="1200€"
+        app:label_text="Expenses"
         app:progress_text_visible="true"
         app:threshold_text_position="bottom"/>
 

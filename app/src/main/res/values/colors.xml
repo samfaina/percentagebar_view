@@ -3,4 +3,21 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+
+    <!-- first palette-->
+    <color name="first_palette_1">#e3d7ff</color>
+    <color name="first_palette_2">#afa2ff</color>
+    <color name="first_palette_3">#7a89c2</color>
+    <color name="first_palette_4">#72788d</color>
+    <color name="first_palette_5">#636b61</color>
+
+
+    <!-- second palette-->
+    <color name="second_palette_1">#414251</color>
+    <color name="second_palette_2">#202935</color>
+    <color name="second_palette_3">#596F8B</color>
+    <color name="second_palette_4">#BBA397</color>
+    <color name="second_palette_5">#D6BC62</color>
+
 </resources>

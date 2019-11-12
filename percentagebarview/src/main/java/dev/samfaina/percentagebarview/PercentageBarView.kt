@@ -56,7 +56,6 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
     private var thresholdHeight: Float = 0f
     private var thresholdHWidth: Float = 0f
     private var thresholdVisible: Boolean = true
-    private var thresholdTextVisible: Boolean = true
     private var thresholdTextColor: Int = 0
     private var thresholdTextPosition: Int = 0
     private var thresholdText: String? = null
@@ -187,10 +186,7 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
 
         // threshold text
         if (thresholdVisible) {
-            thresholdTextVisible =
-                attribs.getBoolean(R.styleable.PercentageBarView_threshold_text_visible, true)
 
-            if (thresholdTextVisible) {
                 thresholdText = attribs.getString(R.styleable.PercentageBarView_threshold_text)
                 thresholdTextColor = attribs.getColor(
                     R.styleable.PercentageBarView_threshold_text_color,
@@ -198,9 +194,7 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
                 )
                 thresholdTextPosition =
                     attribs.getInt(R.styleable.PercentageBarView_threshold_text_position, TOP)
-            }
-        } else {
-            thresholdTextVisible = false
+
         }
 
 
@@ -278,13 +272,13 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
         }
 
         // threshold text
-        thresholdTextView.visibility = when (thresholdTextVisible) {
+        thresholdTextView.visibility = when (thresholdText!=null) {
             true -> View.VISIBLE
             false -> View.GONE
         }
 
 
-        if (thresholdTextVisible) {
+        if (thresholdText!=null) {
             setText(thresholdTextView, thresholdText)
             thresholdTextView.setTextColor(thresholdTextColor)
             val constraintSet = ConstraintSet()

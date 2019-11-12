@@ -5,7 +5,6 @@
         <attr name="threshold_width" format="dimension"/>
         <attr name="threshold_height" format="dimension"/>
         <attr name="threshold_visible" format="boolean"/>
-        <attr name="threshold_text_visible" format="boolean"/>
         <attr name="threshold_text_color" format="color"/>
         <attr name="threshold_text" format="string"/>
         <attr name="threshold_text_position" format="enum">

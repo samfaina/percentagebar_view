@@ -34,8 +34,8 @@ class MainFragment : Fragment() {
 
 
         prgButton.setOnClickListener {
-            percentageBarView.setProgress(30f, true)
-            percentageBarView2.setProgress(95f, true)
+            percentageBarView.setProgress((1..100).random().toFloat(), true)
+            percentageBarView2.setProgress((1..100).random().toFloat(), true)
         }
 
 
