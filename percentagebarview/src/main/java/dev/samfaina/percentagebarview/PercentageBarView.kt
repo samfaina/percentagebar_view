@@ -14,9 +14,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 
+/**
+ * View to render a percentage bar
+ * @param context [Context]
+ * @param attrs [AttributeSet]
+ */
 class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
 
-    // aux attribs
+    // aux attrs
     private var thresholdPosition: Float = 0f
     private var maxWith: Float = 0f
     private var initialProgress: Int = 0
@@ -34,7 +39,7 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
     var constrained: ConstraintLayout
     var wrapper: RelativeLayout
 
-    // progress attribs
+    // progress attrs
     private var progressColor: Int = 0
     private var progressDrawable: Drawable? = null
     private var progressHeight: Float = 0f
@@ -50,7 +55,7 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
     private var progressTextInterpolator: BaseInterpolator? =
         InterpolatorHelper.interpolatorMap[InterpolatorHelper.LINEAR_INTERPOLATOR]
 
-    // threshold attribs
+    // threshold attrs
     private var thresholdColor: Int = 0
     private var thresholdDrawable: Drawable? = null
     private var thresholdHeight: Float = 0f
@@ -60,12 +65,12 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
     private var thresholdTextPosition: Int = 0
     private var thresholdText: String? = null
 
-    // background attribs
+    // background attrs
     private var backgroundBarColor: Int = 0
     private var backgroundBarDrawable: Drawable? = null
     private var backgroundBarHeight: Float = 0f
 
-    // label attribs
+    // label attrs
     private var labelText: String? = null
     private var labelColor: Int = 0
 
@@ -98,111 +103,50 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
         // progress
         if (progressValue != -1) {
             setProgress(progressValue.toFloat(), true)
-//            wrapper.postDelayed({
-//                setProgress(progressValue.toFloat(), true)
-//            },1000)
         }
     }
 
 
     /**
      * Fetch view setup from attributeset
+     * @param attrs [TypedArray]
+     * @param context [Context]
      */
-    private fun getOptions(context: Context, it: AttributeSet) {
-        val attribs: TypedArray =
-            context.theme.obtainStyledAttributes(it, R.styleable.PercentageBarView, 0, 0)
+    private fun getOptions(context: Context, attributeSet: AttributeSet) {
+        val attrs: TypedArray =
+            context.theme.obtainStyledAttributes(attributeSet, R.styleable.PercentageBarView, 0, 0)
 
         // progress bar
-        progressDrawable = attribs.getDrawable(R.styleable.PercentageBarView_progress_color)
-        if (progressDrawable == null) {
-            progressColor = attribs.getColor(
-                R.styleable.PercentageBarView_progress_color,
-                ContextCompat.getColor(context, R.color.default_progress_color)
-            )
-        }
-
-        progressHeight = attribs.getDimension(
-            R.styleable.PercentageBarView_progress_height,
-            context.resources.getDimension(R.dimen.default_bar_height)
-        )
-
-        progressValue = attribs.getInt(R.styleable.PercentageBarView_progress, -1)
-
-        progressAnimDuration =
-            attribs.getInt(R.styleable.PercentageBarView_progress_anim_duration, defaultDuration)
-        val progressInt = attribs.getInt(R.styleable.PercentageBarView_progress_interpolator, -1)
-        if (progressInt != -1) {
-            progressInterpolator = InterpolatorHelper.interpolatorMap[progressInt]
-        }
-
-
-        // progress text
-        progressVisible =
-            attribs.getBoolean(R.styleable.PercentageBarView_progress_text_visible, false)
-        progressTextColor = attribs.getColor(
-            R.styleable.PercentageBarView_progress_text_color,
-            ContextCompat.getColor(context, R.color.default_text_color)
-        )
-
-        progressTextAnimDuration = attribs.getInt(
-            R.styleable.PercentageBarView_progress_text_anim_duration,
-            defaultDuration
-        )
-
-        val progressTextInt =
-            attribs.getInt(R.styleable.PercentageBarView_progress_text_interpolator, -1)
-        if (progressTextInt != -1) {
-            progressTextInterpolator = InterpolatorHelper.interpolatorMap[progressTextInt]
-        }
+        getProgressAttrs(attrs, context)
 
         // label text
-        labelColor = attribs.getColor(
-            R.styleable.PercentageBarView_label_color,
-            ContextCompat.getColor(context, R.color.default_text_color)
-        )
-        labelText = attribs.getString(R.styleable.PercentageBarView_label_text)
+        getLabelAttrs(attrs, context)
 
 
         // threshold
-        thresholdDrawable = attribs.getDrawable(R.styleable.PercentageBarView_threshold_color)
-        if (thresholdDrawable == null) {
-            thresholdColor = attribs.getColor(
-                R.styleable.PercentageBarView_threshold_color,
-                ContextCompat.getColor(context, R.color.default_threshold_color)
-            )
-        }
-
-        thresholdHeight = attribs.getDimension(
-            R.styleable.PercentageBarView_threshold_height,
-            context.resources.getDimension(R.dimen.default_threshold_height)
-        )
-
-        thresholdHWidth = attribs.getDimension(
-            R.styleable.PercentageBarView_threshold_width,
-            context.resources.getDimension(R.dimen.default_threshold_width)
-        )
-
-        thresholdVisible = attribs.getBoolean(R.styleable.PercentageBarView_threshold_visible, true)
-
-        // threshold text
-        if (thresholdVisible) {
-
-                thresholdText = attribs.getString(R.styleable.PercentageBarView_threshold_text)
-                thresholdTextColor = attribs.getColor(
-                    R.styleable.PercentageBarView_threshold_text_color,
-                    ContextCompat.getColor(context, R.color.default_text_color)
-                )
-                thresholdTextPosition =
-                    attribs.getInt(R.styleable.PercentageBarView_threshold_text_position, TOP)
-
-        }
+        getThresholdAttrs(attrs, context)
 
 
         // background bar
+        getBackgroundAttrs(attrs, context)
+
+        // recycle TypedArray
+        attrs.recycle()
+    }
+
+    /**
+     * Get background bar settings from attrs
+     * @param attrs [TypedArray]
+     * @param context [Context]
+     */
+    private fun getBackgroundAttrs(
+        attrs: TypedArray,
+        context: Context
+    ) {
         backgroundBarDrawable =
-            attribs.getDrawable(R.styleable.PercentageBarView_background_bar_color)
+            attrs.getDrawable(R.styleable.PercentageBarView_background_bar_color)
         if (backgroundBarDrawable == null) {
-            backgroundBarColor = attribs.getColor(
+            backgroundBarColor = attrs.getColor(
                 R.styleable.PercentageBarView_background_bar_color,
                 ContextCompat.getColor(context, R.color.default_background_color)
             )
@@ -210,15 +154,124 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
 
 
         backgroundBarHeight =
-            when (attribs.hasValue(R.styleable.PercentageBarView_background_bar_height)) {
-                true -> attribs.getDimension(
+            when (attrs.hasValue(R.styleable.PercentageBarView_background_bar_height)) {
+                true -> attrs.getDimension(
                     R.styleable.PercentageBarView_background_bar_height,
                     context.resources.getDimension(R.dimen.default_bar_height)
                 )
                 false -> progressHeight
             }
+    }
 
-        attribs.recycle()
+    /**
+     * Get label settings from attrs
+     * @param attrs [TypedArray]
+     * @param context [Context]
+     */
+    private fun getLabelAttrs(
+        attrs: TypedArray,
+        context: Context
+    ) {
+        labelColor = attrs.getColor(
+            R.styleable.PercentageBarView_label_color,
+            ContextCompat.getColor(context, R.color.default_text_color)
+        )
+        labelText = attrs.getString(R.styleable.PercentageBarView_label_text)
+    }
+
+    /**
+     * Get progress settings from attrs
+     * @param attrs [TypedArray]
+     * @param context [Context]
+     */
+    private fun getProgressAttrs(
+        attrs: TypedArray,
+        context: Context
+    ) {
+        progressDrawable = attrs.getDrawable(R.styleable.PercentageBarView_progress_color)
+        if (progressDrawable == null) {
+            progressColor = attrs.getColor(
+                R.styleable.PercentageBarView_progress_color,
+                ContextCompat.getColor(context, R.color.default_progress_color)
+            )
+        }
+
+        progressHeight = attrs.getDimension(
+            R.styleable.PercentageBarView_progress_height,
+            context.resources.getDimension(R.dimen.default_bar_height)
+        )
+
+        progressValue = attrs.getInt(R.styleable.PercentageBarView_progress, -1)
+
+        progressAnimDuration =
+            attrs.getInt(R.styleable.PercentageBarView_progress_anim_duration, defaultDuration)
+        val progressInt = attrs.getInt(R.styleable.PercentageBarView_progress_interpolator, -1)
+        if (progressInt != -1) {
+            progressInterpolator = InterpolatorHelper.interpolatorMap[progressInt]
+        }
+
+
+        // progress text
+        progressVisible =
+            attrs.getBoolean(R.styleable.PercentageBarView_progress_text_visible, false)
+        progressTextColor = attrs.getColor(
+            R.styleable.PercentageBarView_progress_text_color,
+            ContextCompat.getColor(context, R.color.default_text_color)
+        )
+
+        progressTextAnimDuration = attrs.getInt(
+            R.styleable.PercentageBarView_progress_text_anim_duration,
+            defaultDuration
+        )
+
+        val progressTextInt =
+            attrs.getInt(R.styleable.PercentageBarView_progress_text_interpolator, -1)
+        if (progressTextInt != -1) {
+            progressTextInterpolator = InterpolatorHelper.interpolatorMap[progressTextInt]
+        }
+    }
+
+    /**
+     * Get threshold settings from attrs
+     * @param attrs [TypedArray]
+     * @param context [Context]
+     */
+    private fun getThresholdAttrs(
+        attrs: TypedArray,
+        context: Context
+    ) {
+        thresholdDrawable = attrs.getDrawable(R.styleable.PercentageBarView_threshold_color)
+        if (thresholdDrawable == null) {
+            thresholdColor = attrs.getColor(
+                R.styleable.PercentageBarView_threshold_color,
+                ContextCompat.getColor(context, R.color.default_threshold_color)
+            )
+        }
+
+        thresholdHeight = attrs.getDimension(
+            R.styleable.PercentageBarView_threshold_height,
+            context.resources.getDimension(R.dimen.default_threshold_height)
+        )
+
+        thresholdHWidth = attrs.getDimension(
+            R.styleable.PercentageBarView_threshold_width,
+            context.resources.getDimension(R.dimen.default_threshold_width)
+        )
+
+        thresholdVisible = attrs.getBoolean(R.styleable.PercentageBarView_threshold_visible, true)
+
+        // threshold text
+        if (thresholdVisible) {
+
+            thresholdText = attrs.getString(R.styleable.PercentageBarView_threshold_text)
+            thresholdTextColor = attrs.getColor(
+                R.styleable.PercentageBarView_threshold_text_color,
+                ContextCompat.getColor(context, R.color.default_text_color)
+            )
+            thresholdTextPosition =
+                attrs.getInt(R.styleable.PercentageBarView_threshold_text_position, TOP)
+
+        }
     }
 
     /**
@@ -226,59 +279,35 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
      */
     private fun applyOptions() {
         // progress bar
-        progressView.layoutParams.height = progressHeight.toInt()
-        if (progressDrawable != null) {
-            progressView.background = progressDrawable
-        } else {
-            progressView.setBackgroundColor(progressColor)
-        }
+        setupProgressbar()
 
         // progress text
-        progressTextView.setTextColor(progressTextColor)
-        progressTextView.visibility = when (progressVisible) {
-            true -> View.VISIBLE
-            false -> View.GONE
-        }
+        setupProgressText()
 
         // label text
-        setText(labelTextView, labelText)
-        labelTextView.setTextColor(labelColor)
-        labelTextView.visibility = when (labelText!=null) {
-            true -> View.VISIBLE
-            false -> View.GONE
-        }
+        setupLabelText()
 
         // background bar
-        backgroundView.layoutParams.height = backgroundBarHeight.toInt()
-        if (backgroundBarDrawable != null) {
-            backgroundView.background = backgroundBarDrawable
-        } else {
-            backgroundView.setBackgroundColor(backgroundBarColor)
-        }
+        setupBackgroundBar()
 
         // threshold bar
-        thresholdView.visibility = when (thresholdVisible) {
-            true -> View.VISIBLE
-            false -> View.GONE
-        }
-        if (thresholdVisible) {
-            thresholdView.layoutParams.height = thresholdHeight.toInt()
-            thresholdView.layoutParams.width = thresholdHWidth.toInt()
-            if (thresholdDrawable != null) {
-                thresholdView.background = thresholdDrawable
-            } else {
-                thresholdView.setBackgroundColor(thresholdColor)
-            }
-        }
+        setupThresholdBar()
 
         // threshold text
-        thresholdTextView.visibility = when (thresholdText!=null) {
+        setupThresholdText()
+
+
+    }
+
+
+    private fun setupThresholdText() {
+        thresholdTextView.visibility = when (thresholdText != null) {
             true -> View.VISIBLE
             false -> View.GONE
         }
 
 
-        if (thresholdText!=null) {
+        if (thresholdText != null) {
             setText(thresholdTextView, thresholdText)
             thresholdTextView.setTextColor(thresholdTextColor)
             val constraintSet = ConstraintSet()
@@ -304,13 +333,69 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
             constraintSet.applyTo(constrained)
 
         }
+    }
 
 
+    private fun setupThresholdBar() {
+        thresholdView.visibility = when (thresholdVisible) {
+            true -> View.VISIBLE
+            false -> View.GONE
+        }
+        if (thresholdVisible) {
+            thresholdView.layoutParams.height = thresholdHeight.toInt()
+            thresholdView.layoutParams.width = thresholdHWidth.toInt()
+            if (thresholdDrawable != null) {
+                thresholdView.background = thresholdDrawable
+            } else {
+                thresholdView.setBackgroundColor(thresholdColor)
+            }
+        }
+    }
+
+
+    private fun setupBackgroundBar() {
+        backgroundView.layoutParams.height = backgroundBarHeight.toInt()
+        if (backgroundBarDrawable != null) {
+            backgroundView.background = backgroundBarDrawable
+        } else {
+            backgroundView.setBackgroundColor(backgroundBarColor)
+        }
+    }
+
+
+    private fun setupLabelText() {
+        setText(labelTextView, labelText)
+        labelTextView.setTextColor(labelColor)
+        labelTextView.visibility = when (labelText != null) {
+            true -> View.VISIBLE
+            false -> View.GONE
+        }
+    }
+
+
+    private fun setupProgressText() {
+        progressTextView.setTextColor(progressTextColor)
+        progressTextView.visibility = when (progressVisible) {
+            true -> View.VISIBLE
+            false -> View.GONE
+        }
+    }
+
+
+    private fun setupProgressbar() {
+        progressView.layoutParams.height = progressHeight.toInt()
+        if (progressDrawable != null) {
+            progressView.background = progressDrawable
+        } else {
+            progressView.setBackgroundColor(progressColor)
+        }
     }
 
 
     /**
      * Set text to textview and handles @Null strings
+     * @param view [TextView] view to set text
+     * @param text [String?] text to set
      */
     private fun setText(view: TextView, text: String?) {
         text?.let {
@@ -321,6 +406,7 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
 
     /**
      * Animates percentage text
+     * @param progress [Float] progress
      */
     private fun animateText(progress: Float) {
         ValueAnimator.ofFloat(initialPercProgress, progress).apply {
@@ -345,6 +431,7 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
 
     /**
      * Animates percentage bar
+     * @param prog [Float] progress
      */
     private fun animateBar(prog: Float) {
         ValueAnimator.ofInt(initialProgress, prog.toInt()).apply {
@@ -366,9 +453,7 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
         }
     }
 
-    /**
-     * Changes percentage bar with
-     */
+    
     private fun updateWidth(width: Int) {
         val progressLayoutParams = progressView.layoutParams
         progressLayoutParams.width = width
@@ -403,6 +488,10 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
 
     }
 
+    /**
+     * Set threshold text programatically
+     * @param text [String]
+     */
     fun setThresholdText(text: String) {
         thresholdTextView.text = text
     }
