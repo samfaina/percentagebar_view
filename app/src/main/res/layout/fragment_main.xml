@@ -37,7 +37,6 @@
         app:progress_interpolator="accelerate_decelerate"
         app:progress_height="8dp"
         app:background_bar_height="6dp"
-        app:threshold_text="1200€"
         app:label_text="Expenses"
         app:progress_text_visible="true"
         app:threshold_text_position="bottom"/>

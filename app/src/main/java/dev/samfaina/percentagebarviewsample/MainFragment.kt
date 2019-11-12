@@ -33,6 +33,7 @@ class MainFragment : Fragment() {
         percentageBarView.setProgress(80f, true)
 
 
+        percentageBarView2.setThresholdText("1200€")
 
         prgButton.setOnClickListener {
             percentageBarView.setProgress((1..100).random().toFloat(), true)

@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import dev.samfaina.percentagebarview.utils.AnimationConstants.Companion.DEFAULT_DELAY
 import dev.samfaina.percentagebarview.utils.AttrHelper
@@ -145,6 +146,7 @@ class PercentageBarView(context: Context, attrs: AttributeSet) : ConstraintLayou
      * @param text [String]
      */
     fun setThresholdText(text: String) {
+        viewHolder.thresholdTextView.visibility = View.VISIBLE
         viewHolder.thresholdTextView.text = text
     }
 
